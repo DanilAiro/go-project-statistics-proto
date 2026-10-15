@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package account;
 
-option go_package = "/pkg/pb/account";
+option go_package = "api-contracts/gen/go/api/proto/account;account";
 
 message AccountByNameRequest {
     string tag = 1;
