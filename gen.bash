@@ -4,4 +4,5 @@ protoc \
   --go-grpc_out=gen/go \
   --go-grpc_opt=paths=source_relative \
   --experimental_allow_proto3_optional \
-  api/proto/account/account.proto api/proto/match/match.proto
+  api/proto/account/account.proto \
+  api/proto/match/match.proto
