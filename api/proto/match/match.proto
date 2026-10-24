@@ -1,0 +1,272 @@
+syntax = "proto3";
+
+package match;
+
+option go_package = "api-contracts/gen/go/api/proto/match;match";
+
+import "google/protobuf/any.proto";
+
+message Match {
+  repeated Kill kills = 1;
+  repeated Team teams = 2;
+  repeated Round rounds = 3;
+  repeated Player players = 4;
+  repeated Coach coaches = 5;
+  Metadata metadata = 6;
+  repeated Observer observers = 7;
+}
+
+message Coach {
+  string puuid = 1;
+  string team_id = 2;
+}
+
+message Kill {
+  int32 round = 1;
+  PlayerShort killer = 2;
+  PlayerShort victim = 3;
+  Weapon weapon = 4;
+  Location location = 5;
+  repeated Assistant assistants = 6;
+  repeated PlayerLocation player_locations = 7;
+  int64 time_in_round_in_ms = 8;
+  int64 time_in_match_in_ms = 9;
+  bool secondary_fire_mode = 10;
+}
+
+message Metadata {
+  GameMap map = 1;
+  Queue queue = 2;
+  string region = 3;
+  string match_id = 4;
+  string cluster = 5;
+  google.protobuf.Any premier = 6;
+  string platform = 7;
+  string started_at = 8;
+  string game_version = 9;
+  bool is_completed = 10;
+  int64 game_length_in_ms = 11;
+  repeated PartyRRPenalty party_rr_penalties = 12;
+}
+
+message Observer {
+  string tag = 1;
+  string name = 2;
+  string card_id = 3;
+  string puuid = 4;
+  string title_id = 5;
+  string party_id = 6;
+  int32 account_level = 7;
+  int32 session_playtime_in_ms = 8;
+}
+
+message Player {
+  string tag = 1;
+  string name = 2;
+  Tier tier = 3;
+  Agent agent = 4;
+  string puuid = 5;
+  Stats stats = 6;
+  string team_id = 7;
+  Economy economy = 8;
+  string party_id = 9;
+  Behavior behavior = 10;
+  string platform = 11;
+  AbilityCasts ability_casts = 12;
+  int32 account_level = 13;
+  Customization customization = 14;
+  int32 session_playtime_in_ms = 15;
+}
+
+message Round {
+  int32 id = 1;
+  repeated Stats stats = 2;
+  Plant plant = 3;
+  string result = 4;
+  Defuse defuse = 5;
+  string ceremony = 6;
+  string winning_team = 7;
+}
+
+message Team {
+  bool won = 1;
+  RoundShort rounds = 2;
+  string team_id = 3;
+  PremierRoster premier_roster = 4;
+}
+
+message Assistant {
+  string tag = 1;
+  string name = 2;
+  string team = 3;
+  string puuid = 4;
+}
+
+message Location {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+message PlayerLocation {
+  PlayerShort player = 1;
+  Location location = 2;
+  double view_radians = 3;
+}
+
+message PlayerShort {
+  string tag = 1;
+  string name = 2;
+  string team = 3;
+  string puuid = 4;
+}
+
+message Weapon {
+  string id = 1;
+  string name = 2;
+  string type = 3;
+}
+
+message GameMap {
+  string id = 1;
+  string name = 2;
+}
+
+message PartyRRPenalty {
+  string party_id = 1;
+  double penalty = 2;
+}
+
+message Queue {
+  string id = 1;
+  string name = 2;
+  string mode_type = 3;
+}
+
+message AbilityCasts {
+  int32 ability1 = 1;
+  int32 ability2 = 2;
+  int32 grenade = 3;
+  int32 ultimate = 4;
+}
+
+message Agent {
+  string id = 1;
+  string name = 2;
+}
+
+message Behavior {
+  double afk_rounds = 1;
+  FriendlyFire friendly_fire = 2;
+  double rounds_in_spawn = 3;
+}
+
+message FriendlyFire {
+  double incoming = 1;
+  double outgoing = 2;
+}
+
+message Customization {
+  string card = 1;
+  string title = 2;
+  string preferred_level_border = 3;
+}
+
+message Economy {
+  Spent spent = 1;
+  LoadoutValue loadout_value = 2;
+}
+
+message LoadoutValue {
+  int32 overall = 1;
+  double average = 2;
+}
+
+message Spent {
+  int32 overall = 1;
+  double average = 2;
+}
+
+message Stats {
+  int32 kills = 1;
+  int32 score = 2;
+  Damage damage = 3;
+  int32 assists = 4;
+  int32 legshots = 5;
+  int32 bodyshots = 6;
+  int32 headshots = 7;
+}
+
+message Damage {
+  int32 dealt = 1;
+  int32 received = 2;
+}
+
+message Tier {
+  int32 id = 1;
+  string name = 2;
+}
+
+message Defuse {
+  PlayerShort player = 1;
+  Location location = 2;
+  int32 round_time_in_ms = 3;
+  repeated PlayerLocation player_locations = 4;
+}
+
+message Plant {
+  PlayerShort player = 1;
+  Location location = 2;
+  int32 round_time_in_ms = 3;
+  repeated PlayerLocation player_locations = 4;
+}
+
+message RoundShort {
+  int32 won = 1;
+  int32 lost = 2;
+}
+
+message PremierRoster {
+  string id = 1;
+  string tag = 2;
+  string name = 3;
+  repeated string members = 4;
+  PremierCustomization customization = 5;
+}
+
+message PremierCustomization {
+  string icon = 1;
+  string image = 2;
+  string primary_color = 3;
+  string secondary_color = 4;
+  string tertiary_color = 5;
+}
+
+service MatchService {
+  rpc GetPlayerMatches(GetPlayerMatchesRequest) returns (GetPlayerMatchesResponse);
+  rpc GetMatchInfo(GetMatchInfoRequest) returns (GetMatchInfoResponse);
+}
+
+message GetPlayerMatchesRequest {
+  string puuid = 1;
+  string affinity = 2;
+  string platform = 3;
+
+  // Опциональные query-параметры HenrikDev API.
+  optional string mode = 4;
+  optional string map = 5;
+  optional int32 size = 6;
+  optional int32 start = 7;
+}
+
+message GetPlayerMatchesResponse {
+  repeated Match matches = 1;
+}
+
+message GetMatchInfoRequest {
+  string affinity = 1;
+  string match_id = 2;
+}
+
+message GetMatchInfoResponse {
+  Match match = 1;
+}
