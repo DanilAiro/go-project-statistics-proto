@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package mmr;
+
+import "api/proto/account/account.proto";
+
+option go_package = "api-contracts/gen/go/api/proto/mmr;mmr";
+
+message MMRRequest {
+  string puuid = 1;
+  string affinity = 2;
+  string platform = 3;
+}
+
+message MMR {
+  Peak peak = 1;
+  riot.account.v1.Account account = 2;
+  Current current = 3;
+  repeated Seasonal seasonal = 4;
+}
+
+message Current {
+  int32 rr = 1;
+  int32 elo = 2;
+  Tier tier = 3;
+  int32 last_change = 4;
+  LeaderboardPlacement leaderboard_placement = 5;
+  int32 games_needed_for_rating = 6;
+  int32 rank_protection_shields = 7;
+}
+
+message Seasonal {
+  int32 wins = 1;
+  int32 games = 2;
+  int32 end_rr = 3;
+  Season season = 4;
+  Tier end_tier = 5;
+  repeated ActWins act_wins = 6;
+  string ranking_schema = 7;
+  LeaderboardPlacement leaderboard_placement = 8;
+}
+
+message Peak {
+  int32 rr = 1;
+  Tier tier = 2;
+  Season season = 3;
+  string ranking_schema = 4;
+}
+
+message Tier {
+  int32 id = 1;
+  string name = 2;
+}
+
+message LeaderboardPlacement {
+  int32 rank = 1;
+  string updated_at = 2;
+}
+
+message ActWins {
+  int32 id = 1;
+  string name = 2;
+}
+
+message Season {
+  string id = 1;
+  string short = 2;
+}
+
+service MMRService {
+  rpc GetMMR(MMRRequest) returns (MMR);
+}
