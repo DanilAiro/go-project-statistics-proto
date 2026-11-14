@@ -14,7 +14,7 @@ message MMRRequest {
 
 message MMR {
   Peak peak = 1;
-  riot.account.v1.Account account = 2;
+  account.Account account = 2;
   Current current = 3;
   repeated Seasonal seasonal = 4;
 }

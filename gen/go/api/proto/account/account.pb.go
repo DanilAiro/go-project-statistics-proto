@@ -121,8 +121,13 @@ type Account struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Tag           string                 `protobuf:"bytes,1,opt,name=tag,proto3" json:"tag,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Puuid         string                 `protobuf:"bytes,3,opt,name=puuid,proto3" json:"puuid,omitempty"`
-	Region        string                 `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty"`
+	Card          string                 `protobuf:"bytes,3,opt,name=card,proto3" json:"card,omitempty"`
+	Puuid         string                 `protobuf:"bytes,4,opt,name=puuid,proto3" json:"puuid,omitempty"`
+	Title         string                 `protobuf:"bytes,5,opt,name=title,proto3" json:"title,omitempty"`
+	Region        string                 `protobuf:"bytes,6,opt,name=region,proto3" json:"region,omitempty"`
+	UpdatedAt     string                 `protobuf:"bytes,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	Platforms     []string               `protobuf:"bytes,8,rep,name=platforms,proto3" json:"platforms,omitempty"`
+	AccountLevel  int32                  `protobuf:"varint,9,opt,name=account_level,json=accountLevel,proto3" json:"account_level,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -171,9 +176,23 @@ func (x *Account) GetName() string {
 	return ""
 }
 
+func (x *Account) GetCard() string {
+	if x != nil {
+		return x.Card
+	}
+	return ""
+}
+
 func (x *Account) GetPuuid() string {
 	if x != nil {
 		return x.Puuid
+	}
+	return ""
+}
+
+func (x *Account) GetTitle() string {
+	if x != nil {
+		return x.Title
 	}
 	return ""
 }
@@ -185,6 +204,27 @@ func (x *Account) GetRegion() string {
 	return ""
 }
 
+func (x *Account) GetUpdatedAt() string {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return ""
+}
+
+func (x *Account) GetPlatforms() []string {
+	if x != nil {
+		return x.Platforms
+	}
+	return nil
+}
+
+func (x *Account) GetAccountLevel() int32 {
+	if x != nil {
+		return x.AccountLevel
+	}
+	return 0
+}
+
 var File_api_proto_account_account_proto protoreflect.FileDescriptor
 
 const file_api_proto_account_account_proto_rawDesc = "" +
@@ -194,12 +234,18 @@ const file_api_proto_account_account_proto_rawDesc = "" +
 	"\x03tag\x18\x01 \x01(\tR\x03tag\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\"&\n" +
 	"\x0eAccountRequest\x12\x14\n" +
-	"\x05puuid\x18\x01 \x01(\tR\x05puuid\"]\n" +
+	"\x05puuid\x18\x01 \x01(\tR\x05puuid\"\xe9\x01\n" +
 	"\aAccount\x12\x10\n" +
 	"\x03tag\x18\x01 \x01(\tR\x03tag\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
-	"\x05puuid\x18\x03 \x01(\tR\x05puuid\x12\x16\n" +
-	"\x06region\x18\x04 \x01(\tR\x06region2\x8e\x01\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
+	"\x04card\x18\x03 \x01(\tR\x04card\x12\x14\n" +
+	"\x05puuid\x18\x04 \x01(\tR\x05puuid\x12\x14\n" +
+	"\x05title\x18\x05 \x01(\tR\x05title\x12\x16\n" +
+	"\x06region\x18\x06 \x01(\tR\x06region\x12\x1d\n" +
+	"\n" +
+	"updated_at\x18\a \x01(\tR\tupdatedAt\x12\x1c\n" +
+	"\tplatforms\x18\b \x03(\tR\tplatforms\x12#\n" +
+	"\raccount_level\x18\t \x01(\x05R\faccountLevel2\x8e\x01\n" +
 	"\x0eAccountService\x127\n" +
 	"\n" +
 	"GetAccount\x12\x17.account.AccountRequest\x1a\x10.account.Account\x12C\n" +
