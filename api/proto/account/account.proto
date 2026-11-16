@@ -7,10 +7,16 @@ option go_package = "api-contracts/gen/go/api/proto/account;account";
 message AccountByNameRequest {
 	string tag = 1;
 	string name = 2;
+
+  // Опциональные query-параметры HenrikDev API.
+  optional bool force = 3;
 }
 
 message AccountRequest {
 	string puuid = 1;
+
+  // Опциональные query-параметры HenrikDev API.
+  optional bool force = 2;
 }
 
 message Account {

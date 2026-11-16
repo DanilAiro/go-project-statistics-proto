@@ -22,9 +22,11 @@ const (
 )
 
 type AccountByNameRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Tag           string                 `protobuf:"bytes,1,opt,name=tag,proto3" json:"tag,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Tag   string                 `protobuf:"bytes,1,opt,name=tag,proto3" json:"tag,omitempty"`
+	Name  string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	// Опциональные query-параметры HenrikDev API.
+	Force         *bool `protobuf:"varint,3,opt,name=force,proto3,oneof" json:"force,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -73,9 +75,18 @@ func (x *AccountByNameRequest) GetName() string {
 	return ""
 }
 
+func (x *AccountByNameRequest) GetForce() bool {
+	if x != nil && x.Force != nil {
+		return *x.Force
+	}
+	return false
+}
+
 type AccountRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Puuid         string                 `protobuf:"bytes,1,opt,name=puuid,proto3" json:"puuid,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Puuid string                 `protobuf:"bytes,1,opt,name=puuid,proto3" json:"puuid,omitempty"`
+	// Опциональные query-параметры HenrikDev API.
+	Force         *bool `protobuf:"varint,2,opt,name=force,proto3,oneof" json:"force,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -115,6 +126,13 @@ func (x *AccountRequest) GetPuuid() string {
 		return x.Puuid
 	}
 	return ""
+}
+
+func (x *AccountRequest) GetForce() bool {
+	if x != nil && x.Force != nil {
+		return *x.Force
+	}
+	return false
 }
 
 type Account struct {
@@ -229,12 +247,16 @@ var File_api_proto_account_account_proto protoreflect.FileDescriptor
 
 const file_api_proto_account_account_proto_rawDesc = "" +
 	"\n" +
-	"\x1fapi/proto/account/account.proto\x12\aaccount\"<\n" +
+	"\x1fapi/proto/account/account.proto\x12\aaccount\"a\n" +
 	"\x14AccountByNameRequest\x12\x10\n" +
 	"\x03tag\x18\x01 \x01(\tR\x03tag\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\"&\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x19\n" +
+	"\x05force\x18\x03 \x01(\bH\x00R\x05force\x88\x01\x01B\b\n" +
+	"\x06_force\"K\n" +
 	"\x0eAccountRequest\x12\x14\n" +
-	"\x05puuid\x18\x01 \x01(\tR\x05puuid\"\xe9\x01\n" +
+	"\x05puuid\x18\x01 \x01(\tR\x05puuid\x12\x19\n" +
+	"\x05force\x18\x02 \x01(\bH\x00R\x05force\x88\x01\x01B\b\n" +
+	"\x06_force\"\xe9\x01\n" +
 	"\aAccount\x12\x10\n" +
 	"\x03tag\x18\x01 \x01(\tR\x03tag\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
@@ -286,6 +308,8 @@ func file_api_proto_account_account_proto_init() {
 	if File_api_proto_account_account_proto != nil {
 		return
 	}
+	file_api_proto_account_account_proto_msgTypes[0].OneofWrappers = []any{}
+	file_api_proto_account_account_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
